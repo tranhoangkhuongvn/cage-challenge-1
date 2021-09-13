@@ -12,12 +12,16 @@ class OpenAIGymWrapper(Env, BaseWrapper):
         super().__init__(env, agent_name)
         self.agent_name = agent_name
         if isinstance(self.get_action_space(self.agent_name), list):
-            self.action_space = spaces.MultiDiscrete(self.get_action_space(self.agent_name))
+            self.action_space = spaces.MultiDiscrete(
+                self.get_action_space(self.agent_name))
         else:
             assert isinstance(self.get_action_space(self.agent_name), int)
-            self.action_space = spaces.Discrete(self.get_action_space(self.agent_name))
-        box_len = len(self.observation_change(self.env.reset(self.agent_name).observation))
-        self.observation_space = spaces.Box(-1.0, 1.0, shape=(box_len,), dtype=np.float32)
+            self.action_space = spaces.Discrete(
+                self.get_action_space(self.agent_name))
+        box_len = len(self.observation_change(
+            self.env.reset(self.agent_name).observation))
+        self.observation_space = spaces.Box(-1.0,
+                                            1.0, shape=(box_len,), dtype=np.float32)
         self.reward_range = (float('-inf'), float('inf'))
         self.metadata = {}
         self.action = None
@@ -69,19 +73,19 @@ class OpenAIGymWrapper(Env, BaseWrapper):
                 return print(f'\nBlue Action: {_action}\nRed Action: {red_action}\n{table}')
         return print(table)
 
-    def get_attr(self,attribute:str):
+    def get_attr(self, attribute: str):
         return self.env.get_attr(attribute)
 
     def get_observation(self, agent: str):
         return self.env.get_observation(agent)
 
-    def get_agent_state(self,agent:str):
+    def get_agent_state(self, agent: str):
         return self.get_attr('get_agent_state')(agent)
 
-    def get_action_space(self,agent):
+    def get_action_space(self, agent):
         return self.env.get_action_space(agent)
 
-    def get_last_action(self,agent):
+    def get_last_action(self, agent):
         return self.get_attr('get_last_action')(agent)
 
     def get_ip_map(self):

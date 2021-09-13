@@ -158,7 +158,8 @@ class EnvironmentController:
         # Update Blue's observation with the latest information before returning.
         for agent_name, agent_object in self.agent_interfaces.items():
             if agent_name == 'Blue':
-                agent_session = list(self.get_action_space(agent_name)['session'].keys())[0]
+                agent_session = list(self.get_action_space(
+                    agent_name)['session'].keys())[0]
                 agent_observation = self._filter_obs(
                     self.execute_action(Monitor(session=agent_session, agent='Blue')), agent_name)
                 self.observation[agent_name].combine_obs(agent_observation)
@@ -169,7 +170,8 @@ class EnvironmentController:
             result = Results(observation=true_observation, done=self.done)
         else:
             result = Results(observation=self.observation[agent].data, done=self.done, reward=round(self.reward[agent], 1),
-                             action_space=self.agent_interfaces[agent].action_space.get_action_space(),
+                             action_space=self.agent_interfaces[agent].action_space.get_action_space(
+            ),
                              action=self.action[agent])
         return result
 

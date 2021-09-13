@@ -1,0 +1,190 @@
+# define the agents present in the scenario
+Agents:
+  Red:
+    AllowedSubnets: &id001
+      - Internet
+      - Public_Facing
+      - Private1
+      - Private2
+      - Private3
+    INT:
+      Hosts:
+        Attacker:
+          Interfaces: All
+          System info: All
+        PublicFacing1:
+          Interfaces: IP Address
+        PublicFacing2:
+          Interfaces: IP Address
+        PublicFacing3:
+          Interfaces: IP Address
+    actions:
+    - Sleep
+    - DiscoverRemoteSystems
+    - DiscoverNetworkServices
+    - ExploitRemoteService
+    - PrivilegeEscalate
+    - Impact
+    agent_type: SleepAgent
+    reward_calculator_type: HybridImpactPwn
+    starting_sessions:
+    - hostname: Attacker
+      name: RedServer
+      type: RedAbstractSession
+      username: root
+    wrappers: []
+# List of subnets and which subnets they are connected to
+Subnets:
+  Internet:
+    Hosts:
+      - Attacker
+    NACLs:
+      all:
+        in: all
+        out: all
+    Size: 3
+  Public_Facing:
+    Hosts:
+      - PublicFacing1
+      - PublicFacing2
+      - PublicFacing3
+    NACLs:
+      all:
+        in: all
+        out: all
+    Size: 12
+  Private1:
+    Hosts:
+      - Private1_1
+      - Private1_2
+      - Private1_3
+    NACLs:
+      all:
+        in: all
+        out: all
+    Size: 12
+  Private2:
+    Hosts:
+      - Private2_1
+      - Private2_2
+      - Private2_3
+    NACLs:
+      all:
+        in: all
+        out: all
+    Size: 12
+  Private3:
+    Hosts:
+      - Private3_1
+      - Private3_2
+      - Private3_3
+    NACLs:
+      all:
+        in: all
+        out: all
+    Size: 12
+# List of hosts and the subnet, image and value of each host
+# if no value is provided a default of 0 is used
+Hosts:
+  Attacker:
+    image: Kali_Box
+    info:
+      PublicFacing1:
+        Interfaces: IP Address
+      PublicFacing2:
+        Interfaces: IP Address
+      PublicFacing3:
+        Interfaces: IP Address
+    AvailabilityValue: None
+  PublicFacing1:
+    image: linux_user_host
+    info:
+      Private1_1:
+        Interfaces: IP Address
+      Private1_2:
+        Interfaces: IP Address
+      Private1_3:
+        Interfaces: IP Address
+      Private3_1:
+        Interfaces: IP Address
+      Private3_2:
+        Interfaces: IP Address
+      Private3_3:
+        Interfaces: IP Address
+    AvailabilityValue: None
+  PublicFacing2:
+    image: linux_user_host
+    info:
+      Private1_1:
+        Interfaces: IP Address
+      Private1_2:
+        Interfaces: IP Address
+      Private1_3:
+        Interfaces: IP Address
+      Private3_1:
+        Interfaces: IP Address
+      Private3_2:
+        Interfaces: IP Address
+      Private3_3:
+        Interfaces: IP Address
+    AvailabilityValue: None
+  PublicFacing3:
+    image: linux_user_host
+    info:
+      Private1_1:
+        Interfaces: IP Address
+      Private1_2:
+        Interfaces: IP Address
+      Private1_3:
+        Interfaces: IP Address
+      Private3_1:
+        Interfaces: IP Address
+      Private3_2:
+        Interfaces: IP Address
+      Private3_3:
+        Interfaces: IP Address
+    AvailabilityValue: None
+  Private1_1:
+    image: linux_user_host
+    info:
+      Private2_1:
+        Interfaces: IP Address
+      Private2_2:
+        Interfaces: IP Address
+      Private2_3:
+        Interfaces: IP Address
+    AvailabilityValue: None
+  Private1_2:
+    image: linux_user_host
+    info:
+      Private2_1:
+        Interfaces: IP Address
+      Private2_2:
+        Interfaces: IP Address
+      Private2_3:
+        Interfaces: IP Address
+    AvailabilityValue: None
+  Private1_3:
+    image: linux_user_host
+    info:
+      Private2_1:
+        Interfaces: IP Address
+      Private2_2:
+        Interfaces: IP Address
+      Private2_3:
+        Interfaces: IP Address
+    AvailabilityValue: None
+  Private2_1:
+    image: linux_user_host
+    AvailabilityValue: Medium
+  Private2_2:
+    image: linux_user_host
+  Private2_3:
+    image: linux_user_host
+  Private3_1:
+    image: linux_user_host
+    AvailabilityValue: Medium
+  Private3_2:
+    image: linux_user_host
+  Private3_3:
+    image: linux_user_host

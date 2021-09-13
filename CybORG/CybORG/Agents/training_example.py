@@ -10,26 +10,34 @@ from CybORG.Agents.Wrappers.OpenAIGymWrapper import OpenAIGymWrapper
 MAX_STEPS_PER_GAME = 20
 MAX_EPS = 100
 
+
 def run_training_example(scenario):
     print("Setup")
     path = str(inspect.getfile(CybORG))
     path = path[:-10] + f'/Shared/Scenarios/{scenario}.yaml'
 
     agent_name = 'Red'
-    cyborg = OpenAIGymWrapper(agent_name=agent_name, env=IntListToActionWrapper(FixedFlatWrapper(CybORG(path, 'sim'))))
+    #cyborg = OpenAIGymWrapper(agent_name=agent_name, env=IntListToActionWrapper(
+    #    FixedFlatWrapper(CybORG(path, 'sim'))))
 
+    cyborg = OpenAIGymWrapper(agent_name=agent_name, env=FixedFlatWrapper(CybORG(path, 'sim')))
     observation = cyborg.reset(agent=agent_name)
     action_space = cyborg.get_action_space(agent_name)
+    print(f"Initial action space: {action_space}")
     print(f"Observation size {len(observation)}, Action Size {action_space}")
+    exit(0)
     action_count = 0
     agent = TestAgent()
     for i in range(MAX_EPS):  # laying multiple games
-        # print(f"\rTraining Game: {i}", end='', flush=True)
+        print(f"\rTraining Game: {i}", end='', flush=True)
         reward = 0
         for j in range(MAX_STEPS_PER_GAME):  # step in 1 game
             action = agent.get_action(observation, action_space)
+            print(f"action taken: {action}")
             next_observation, r, done, info = cyborg.step(action=action)
+            print(f"reward: {r}")
             action_space = info.get('action_space')
+            print(f"action space: {action_space}")
             reward += r
 
             agent.train(observation)  # training the agent
@@ -40,5 +48,9 @@ def run_training_example(scenario):
         observation = cyborg.reset(agent=agent_name)
         agent.end_episode()
 
+
 if __name__ == "__main__":
-    run_training_example('Scenario1')
+    # run_training_example('Scenario1')
+    scenario_name = "Scenario1"
+    print(scenario_name)
+    run_training_example(scenario_name)
