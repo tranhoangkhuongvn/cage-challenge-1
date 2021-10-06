@@ -356,7 +356,7 @@ if __name__ == '__main__':
 
     test_bdqn_agent = BranchingDQN_Agent(observation, action_space, device=device)
 
-    train(test_bdqn_agent, n_episodes=1000, max_step=800, eps_start=1.0, eps_end=0.1, eps_decay=0.99)
+    train(test_bdqn_agent, n_episodes=3000, max_step=1500, eps_start=1.0, eps_end=0.1, eps_decay=0.9995)
 
     print(len(test_bdqn_agent.memory))
 

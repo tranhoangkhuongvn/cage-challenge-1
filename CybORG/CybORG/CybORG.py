@@ -231,7 +231,7 @@ class CybORG (CybORGLogger):
 
     def get_ip_map(self):
         return self.environment_controller.hostname_ip_map
-    
+
     def get_rewards(self):
         return self.environment_controller.reward
 
