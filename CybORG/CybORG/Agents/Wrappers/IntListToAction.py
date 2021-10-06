@@ -52,6 +52,7 @@ class IntListToActionWrapper(BaseWrapper):
                 new_action_space.append(len(value))
                 selection_masks.append([list(value.keys()).index(i) for i, v in value.items() if v])
                 self.param_name.append(key)
+            
         return new_action_space, selection_masks
 
     def get_action(self, agent: str, action: list):

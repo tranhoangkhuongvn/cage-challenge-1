@@ -109,7 +109,7 @@ class EnvironmentController:
         Results
             the result of agent performing the action
         """
-
+        #import pdb; pdb.set_trace() 
         # for each agent:
         next_observation = {}
         # all agents act on the state

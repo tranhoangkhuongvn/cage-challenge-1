@@ -11,6 +11,7 @@ class OpenAIGymWrapper(Env, BaseWrapper):
     def __init__(self, agent_name: str, env: BaseWrapper = None, agent: BaseAgent = None):
         super().__init__(env, agent_name)
         self.agent_name = agent_name
+        # print(self.get_action_space(self.agent_name))
         if isinstance(self.get_action_space(self.agent_name), list):
             self.action_space = spaces.MultiDiscrete(
                 self.get_action_space(self.agent_name))

@@ -15,15 +15,15 @@ class FixedFlatWrapper(BaseWrapper):
     def __init__(self, env: BaseWrapper=None, agent=None):
         super().__init__(env, agent)
         self.MAX_HOSTS = 5
-        self.MAX_PROCESSES = 100
+        self.MAX_PROCESSES = 3 #100
         self.MAX_CONNECTIONS = 2
         self.MAX_VULNERABILITIES = 1
         self.MAX_INTERFACES = 4
-        self.MAX_FILES = 10
-        self.MAX_SESSIONS = 20
-        self.MAX_USERS = 10
-        self.MAX_GROUPS = 10
-        self.MAX_PATCHES = 10
+        self.MAX_FILES = 2 #10
+        self.MAX_SESSIONS = 2 #20
+        self.MAX_USERS = 2 #10
+        self.MAX_GROUPS = 2 #10
+        self.MAX_PATCHES = 2 #10
         self.hostname = {}
         self.username = {}
         self.group_name = {}

@@ -25,11 +25,15 @@ if __name__ == "__main__":
     cyborg_version = '1.0'
     scenario = 'Scenario1b'
     # ask for a name
-    name = input('Name: ')
+    # name = input('Name: ')
+    name = "Test"
     # ask for a team
-    team = input("Team: ")
+    # team = input("Team: ")
+    team = "UTS"
     # ask for a name for the agent
-    name_of_agent = input("Name of technique: ")
+    # name_of_agent = input("Name of technique: ")
+
+    name_of_agent = "Test1"
 
     lines = inspect.getsource(wrap)
     wrap_line = lines.split('\n')[1].split('return ')[1]
@@ -60,6 +64,12 @@ if __name__ == "__main__":
             # observation = cyborg.reset().observation
 
             action_space = wrapped_cyborg.get_action_space(agent_name)
+
+            print(observation.shape)
+
+            print(action_space)
+
+            
             # action_space = cyborg.get_action_space(agent_name)
             total_reward = []
             actions = []
@@ -69,6 +79,8 @@ if __name__ == "__main__":
                 # cyborg.env.env.tracker.render()
                 for j in range(num_steps):
                     action = agent.get_action(observation, action_space)
+                    print("selected:", action)
+                    exit(0)
                     obs, rew, done, info = wrapped_cyborg.step(action)
                     # result = cyborg.step(agent_name, action)
                     r.append(rew)
