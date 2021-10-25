@@ -12,22 +12,24 @@ from CybORG.Agents import TestAgent
 from CybORG.Agents.Wrappers.FixedFlatWrapper import FixedFlatWrapper
 from CybORG.Agents.Wrappers.IntListToAction import IntListToActionWrapper
 from CybORG.Agents.Wrappers.OpenAIGymWrapper import OpenAIGymWrapper
+from CybORG.Agents.Wrappers.ReduceActionSpaceWrapper import ReduceActionSpaceWrapper
 
 class DuelingNetwork(nn.Module): 
 
-    def __init__(self, obs, action_space): 
+    def __init__(self, obs, action_space, hidden_1=512, hidden_2=256): 
 
         super().__init__()
         self.obs = obs
-        self.action_space = action_space # example: [8, 3, 4, 9, 2, 139, 9, 8, 4]
-        self.model = nn.Sequential(nn.Linear(obs, 512), 
+        self.action_space = action_space
+        self.model = nn.Sequential(nn.Linear(obs, hidden_1), 
                                    nn.ReLU(), 
-                                   nn.Linear(512,512), 
+                                   nn.Linear(hidden_1, hidden_2), 
                                    nn.ReLU())
 
-        self.value_head = nn.Linear(512, 1)
+        self.value_head = nn.Linear(hidden_2, 1)
 
-        self.adv_head = nn.ModuleList([ nn.Linear(512, action_size) for action_size in self.action_space])
+        
+        self.adv_head = nn.Linear(hidden_2, action_space)
 
     def forward(self, x): 
 
@@ -42,7 +44,9 @@ class DuelingNetwork(nn.Module):
 
 class BranchingQNetwork(nn.Module):
 
-    def __init__(self, obs_space, action_space, hidden_dim=1024): 
+    # TODO:
+    # 1. Add in parameters init method
+    def __init__(self, obs_space, action_space, hidden_1=512, hidden_2=256): 
 
         super().__init__()
         self.obs_space = obs_space
@@ -50,15 +54,18 @@ class BranchingQNetwork(nn.Module):
         self.action_space = action_space
         
 
-        self.model = nn.Sequential(nn.Linear(self.obs_size, hidden_dim), 
+        self.model = nn.Sequential(nn.Linear(self.obs_size, hidden_1), 
                                    nn.ReLU(),
-                                   nn.Linear(hidden_dim, hidden_dim), 
+                                   nn.Linear(hidden_1, hidden_2), 
                                    nn.ReLU())
 
-        self.value_head = nn.Linear(hidden_dim, 1)
-        self.adv_heads = nn.ModuleList([nn.Linear(hidden_dim, i) for i in self.action_space])
+        self.value_head = nn.Linear(hidden_2, 1)
+        self.adv_heads = nn.ModuleList([nn.Linear(hidden_2, i) for i in self.action_space])
+            
 
     def forward(self, x):
+        if not isinstance(x, torch.Tensor):
+            x = torch.tensor(x, dtype=torch.float64)
         
         out = self.model(x)
         value = self.value_head(out)
@@ -68,6 +75,7 @@ class BranchingQNetwork(nn.Module):
         for i in range(len(actions)):
             actions[i] = actions[i] - actions[i].max(-1)[0].reshape(-1,1)
             actions[i] += value
+            actions[i] = actions[i].squeeze()
 
         return actions
 
@@ -76,7 +84,8 @@ if __name__ == '__main__':
     print(torch.cuda.get_device_name())
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print("device:", device)
-    scenario_name = "Scenario1"
+    #scenario_name = "Scenario1"
+    scenario_name = "scenario_12_hosts_2flag"
     path = str(inspect.getfile(CybORG))
     path = path[:-10] + f'/Shared/Scenarios/{scenario_name}.yaml'
 

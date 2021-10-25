@@ -74,5 +74,5 @@ def parse_subnet(subnet, host_list, subnet_list):
     assert 'Size' in subnet
 
 if __name__ == "__main__":
-    for scenario in ["Scenario1.yaml", "Scenario1b.yaml"]:
-        parse_scenario_file(scenario)
+    #for scenario in ["Scenario1.yaml", "Scenario1b.yaml"]:
+	parse_scenario_file("scenario_15_hosts_2flag.yaml")

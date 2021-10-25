@@ -7,6 +7,7 @@ Agents:
       - Private1
       - Private2
       - Private3
+      - Private4
     INT:
       Hosts:
         Attacker:
@@ -83,6 +84,16 @@ Subnets:
         in: all
         out: all
     Size: 12
+  Private4:
+    Hosts:
+      - Private4_1
+      - Private4_2
+      - Private4_3
+    NACLs:
+      all:
+        in: all
+        out: all
+    Size: 12
 # List of hosts and the subnet, image and value of each host
 # if no value is provided a default of 0 is used
 Hosts:
@@ -127,7 +138,7 @@ Hosts:
         Interfaces: IP Address
       Private3_3:
         Interfaces: IP Address
-    ConfidentialityValue: None
+    AvailabilityValue: None
   PublicFacing3:
     image: linux_user_host
     info:
@@ -153,7 +164,7 @@ Hosts:
         Interfaces: IP Address
       Private2_3:
         Interfaces: IP Address
-    ConfidentialityValue: None
+    AvailabilityValue: None
   Private1_2:
     image: linux_user_host
     info:
@@ -173,18 +184,48 @@ Hosts:
         Interfaces: IP Address
       Private2_3:
         Interfaces: IP Address
-    ConfidentialityValue: None
+    AvailabilityValue: None
   Private2_1:
     image: linux_user_host
-    ConfidentialityValue: None
+    AvailabilityValue: Medium
   Private2_2:
     image: linux_user_host
   Private2_3:
     image: linux_user_host
   Private3_1:
     image: linux_user_host
+    info:
+      Private4_1:
+        Interfaces: IP Address
+      Private4_2:
+        Interfaces: IP Address
+      Private4_3:
+        Interfaces: IP Address
+    AvailabilityValue: None
   Private3_2:
     image: linux_user_host
-    ConfidentialityValue: High
+    info:
+      Private4_1:
+        Interfaces: IP Address
+      Private4_2:
+        Interfaces: IP Address
+      Private4_3:
+        Interfaces: IP Address
+    AvailabilityValue: None
   Private3_3:
+    image: linux_user_host
+    info:
+      Private4_1:
+        Interfaces: IP Address
+      Private4_2:
+        Interfaces: IP Address
+      Private4_3:
+        Interfaces: IP Address
+    AvailabilityValue: None
+  Private4_1:
+    image: linux_user_host
+    AvailabilityValue: Medium
+  Private4_2:
+    image: linux_user_host
+  Private4_3:
     image: linux_user_host

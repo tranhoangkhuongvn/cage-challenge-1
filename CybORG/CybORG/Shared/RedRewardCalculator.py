@@ -17,12 +17,13 @@ REWARD_MAX_DECIMAL_PLACES = 1
 
 class PwnRewardCalculator(RewardCalculator):
     # this reward calculator provides a reward to Red due to changes in the number of privileged sessions
+    #import pdb; pdb.set_trace()
     def __init__(self, agent_name: str, scenario: Scenario):
         super().__init__(agent_name)
         self.old_total = 0
         self.scenario = scenario
         self.mapping = {'None': 0.0,
-                        'Low': 0.1,
+                        'Low': 0.0, # old value: 0.1
                         'Medium': 1.0,
                         'High': 10.0}
 
@@ -50,6 +51,7 @@ class PwnRewardCalculator(RewardCalculator):
 
         # find the difference from the old privileged sessions
         total = root_sessions + system_sessions
+        
         reward = total #- self.old_total
         self.old_total = total
         return round(reward, REWARD_MAX_DECIMAL_PLACES)

@@ -199,6 +199,7 @@ class EnvironmentController:
         bool
             whether goal was reached or not
         """
+        
         return False
 
     def start(self, steps: int = None, log_file=None):
